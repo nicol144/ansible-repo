@@ -1,0 +1,5 @@
+[server1]
+172.105.101.72 ansible_ssh_user='root'
+
+[server2]
+172.105.101.239 ansible_ssh_user='root'

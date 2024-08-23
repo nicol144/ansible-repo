@@ -1,0 +1,30 @@
+---
+- name: update server1
+  hosts: server1
+  remote_user: root
+  become: yes
+  become_user: root
+  tasks:
+    - name: Update apt repo
+      apt: 
+        update_cache: yes
+
+    - name: ensure nginx is installed
+      apt:
+        name: nginx
+        state: present
+
+- name: update  server2
+  hosts: server2
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  tasks:
+    - name: Update apt repo
+      apt: 
+        update_cache: yes
+
+    - name: ensure apache2 is at the latest version
+      apt:
+        name: apache2
+        state: present
