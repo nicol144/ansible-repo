@@ -1,0 +1,52 @@
+---
+- name: Remove Nginx from server1
+  hosts: server1
+  become: yes
+
+  tasks:
+    - name: Ensure Nginx is stopped
+      ansible.builtin.systemd:
+        name: nginx
+        state: stopped
+        enabled: no
+
+    - name: Remove Nginx package
+      ansible.builtin.apt:
+        name: nginx
+        state: absent
+        purge: yes  # Purge configuration files along with the package
+
+    - name: Remove additional Nginx packages (if any)
+      ansible.builtin.apt:
+        name:
+          - nginx-common
+          - nginx-full
+        state: absent
+        purge: yes
+
+    - name: Remove Nginx configuration directory
+      ansible.builtin.file:
+        path: /etc/nginx
+        state: absent
+        
+
+    - name: Remove Nginx log directory
+      ansible.builtin.file:
+        path: /var/log/nginx
+        state: absent
+        
+
+    - name: Remove Nginx default web root (if it exists)
+      ansible.builtin.file:
+        path: /var/www/html
+        state: absent
+        
+
+    - name: Clean up any remaining Nginx directories or files
+      ansible.builtin.find:
+        paths:
+          - /etc/nginx
+          - /var/log/nginx
+          - /var/www/html
+        
+      ignore_errors: yes

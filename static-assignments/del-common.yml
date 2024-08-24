@@ -1,0 +1,28 @@
+---
+- name: update server1
+  hosts: server1
+  remote_user: root
+  become: yes
+  become_user: root
+  tasks:
+  - name: delete nginx
+    apt:
+      name: nginx
+      state: absent
+      autoremove: yes
+      purge: yes
+      autoclean: yes
+
+- name: update server2
+  hosts: server2
+  remote_user: root
+  become: yes
+  become_user: root
+  tasks:
+  - name: delete apache2
+    apt:
+      name: apache2
+      state: absent
+      autoremove: yes
+      purge: yes
+      autoclean: yes
